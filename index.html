@@ -1,0 +1,621 @@
+
+<!DOCTYPE html>
+<html lang="ky">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Улан & Толкунай | Үйлөнүү тою</title>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background: #fff8ef;
+    color: #633c16;
+    font-family: Georgia, serif;
+    overflow-x: hidden;
+}
+
+/* COVER / ENVELOPE */
+
+#cover {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    background: linear-gradient(145deg, #f9e9d8, #fffaf1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 1s ease, visibility 1s ease;
+}
+
+#cover.hide {
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+}
+
+.envelope {
+    width: min(88%, 430px);
+    text-align: center;
+    cursor: pointer;
+}
+
+.envelope-card {
+    position: relative;
+    padding: 55px 20px;
+    background: linear-gradient(145deg, #fffaf0, #f4dfc5);
+    border: 2px solid #c99a45;
+    box-shadow: 0 10px 40px #9b6b3430;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.envelope-card::before {
+    content: "✿";
+    display: block;
+    font-size: 55px;
+    color: #bd9147;
+    margin-bottom: 20px;
+}
+
+.envelope-card h1 {
+    font-size: 37px;
+    font-style: italic;
+    color: #9a651e;
+    margin-bottom: 15px;
+}
+
+.envelope-card p {
+    font-size: 17px;
+    line-height: 1.7;
+}
+
+.open-button {
+    margin-top: 30px;
+    padding: 13px 30px;
+    border: 1px solid #b68a3c;
+    background: linear-gradient(135deg, #d7ac61, #fff0c9, #c49440);
+    color: #59350e;
+    font-size: 16px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+/* MAIN SITE */
+
+#main {
+    display: none;
+    width: 100%;
+    max-width: 650px;
+    margin: auto;
+    animation: appear 1.5s ease;
+}
+
+#main.visible {
+    display: block;
+}
+
+@keyframes appear {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ORIGINAL INVITATION IMAGES */
+
+.invitation-image {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    margin: 0 auto;
+}
+
+/* MUSIC BUTTON */
+
+.music-button {
+    position: fixed;
+    z-index: 100;
+    right: 18px;
+    top: 18px;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid #c99a45;
+    background: #fff7e9;
+    color: #9c6b26;
+    font-size: 22px;
+    cursor: pointer;
+    box-shadow: 0 3px 15px #0002;
+}
+
+.music-button.playing {
+    animation: rotate 4s linear infinite;
+}
+
+@keyframes rotate {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* COUNTDOWN */
+
+.countdown-section {
+    text-align: center;
+    padding: 55px 15px;
+    background: linear-gradient(180deg, #fff8ef, #f8e8d8);
+}
+
+.section-title {
+    font-size: 30px;
+    font-style: italic;
+    color: #93601f;
+    margin-bottom: 25px;
+}
+
+.countdown {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.time-box {
+    min-width: 72px;
+    padding: 17px 10px;
+    background: #fffdf8;
+    border: 1px solid #d1a85f;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px #8b5d2020;
+}
+
+.time-box span {
+    display: block;
+    font-size: 28px;
+    font-weight: bold;
+    color: #98651e;
+}
+
+.time-box small {
+    font-size: 12px;
+}
+
+/* MAP */
+
+.map-section {
+    text-align: center;
+    padding: 45px 20px;
+    background: #fffaf2;
+}
+
+.map-button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 15px 30px;
+    border-radius: 30px;
+    background: linear-gradient(135deg, #c79b50, #f4dba5);
+    color: #57370f;
+    text-decoration: none;
+    font-size: 17px;
+    border: 1px solid #b88b43;
+}
+
+/* RSVP */
+
+.rsvp-section {
+    padding: 50px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, #fff8ef, #f5e4d1);
+}
+
+.rsvp-section p {
+    line-height: 1.7;
+    margin-bottom: 20px;
+}
+
+.rsvp-form {
+    max-width: 420px;
+    margin: auto;
+}
+
+.rsvp-form input,
+.rsvp-form select {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid #c9a46a;
+    border-radius: 8px;
+    background: #fffdf9;
+    font-size: 16px;
+    color: #69451c;
+}
+
+.rsvp-form button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #c18e3f, #f2d69c);
+    border: 1px solid #b38b4b;
+    border-radius: 30px;
+    font-size: 17px;
+    color: #56370f;
+    cursor: pointer;
+}
+
+#rsvp-message {
+    margin-top: 20px;
+    font-size: 16px;
+    color: #80551e;
+}
+
+/* FOOTER */
+
+footer {
+    padding: 35px 15px;
+    text-align: center;
+    color: #a0783d;
+    font-size: 17px;
+    background: #fff8ef;
+}
+
+footer span {
+    font-size: 25px;
+}
+
+/* MOBILE */
+
+@media(max-width: 480px) {
+    .envelope-card h1 {
+        font-size: 30px;
+    }
+
+    .section-title {
+        font-size: 25px;
+    }
+
+    .time-box {
+        min-width: 65px;
+    }
+
+    .time-box span {
+        font-size: 23px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- ENVELOPE -->
+
+<div id="cover">
+    <div class="envelope" onclick="openInvitation()">
+        <div class="envelope-card">
+            <h1>Улан & Толкунай</h1>
+            <p>
+                Сизди биздин эң бактылуу күнүбүзгө
+                күбө болууга чакырабыз!
+            </p>
+            <button class="open-button">
+                Чакырууну ачуу ♡
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- MUSIC -->
+
+<audio id="weddingMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+</audio>
+
+<button
+    class="music-button"
+    id="musicButton"
+    onclick="toggleMusic()"
+    style="display:none;">
+    ♪
+</button>
+
+<!-- MAIN WEBSITE -->
+
+<main id="main">
+
+    <!-- ORIGINAL IMAGE 1 -->
+    <img
+        src="image1.jpg"
+        class="invitation-image"
+        alt="Урматтуу коноктор">
+
+    <!-- ORIGINAL IMAGE 2 -->
+    <img
+        src="image2.jpg"
+        class="invitation-image"
+        alt="Улан жана Толкунай">
+
+    <!-- ORIGINAL IMAGE 3 -->
+    <img
+        src="image3.jpg"
+        class="invitation-image"
+        alt="Тойдун датасы жана убактысы">
+
+    <!-- ORIGINAL IMAGE 4 -->
+    <img
+        src="image4.jpg"
+        class="invitation-image"
+        alt="Тойдун дареги">
+
+    <!-- ORIGINAL IMAGE 5 -->
+    <img
+        src="image5.jpg"
+        class="invitation-image"
+        alt="Той ээлери">
+
+    <!-- COUNTDOWN -->
+
+    <section class="countdown-section">
+
+        <h2 class="section-title">
+            Биздин кубанычтуу күнүбүзгө
+        </h2>
+
+        <div class="countdown">
+
+            <div class="time-box">
+                <span id="days">00</span>
+                <small>КҮН</small>
+            </div>
+
+            <div class="time-box">
+                <span id="hours">00</span>
+                <small>СААТ</small>
+            </div>
+
+            <div class="time-box">
+                <span id="minutes">00</span>
+                <small>МҮНӨТ</small>
+            </div>
+
+            <div class="time-box">
+                <span id="seconds">00</span>
+                <small>СЕКУНД</small>
+            </div>
+
+        </div>
+
+    </section>
+
+    <!-- MAP -->
+
+    <section class="map-section">
+
+        <h2 class="section-title">
+            Той өтүүчү дарек
+        </h2>
+
+        <p>
+            Балыкчы шаары,<br>
+            Айдаркен кафеси
+        </p>
+
+        <a
+            class="map-button"
+            href="https://www.google.com/maps/search/?api=1&query=Айдаркен+кафеси+Балыкчы"
+            target="_blank">
+            📍 Картаны ачуу
+        </a>
+
+    </section>
+
+    <!-- RSVP -->
+
+    <section class="rsvp-section">
+
+        <h2 class="section-title">
+            Сизди күтөбүз!
+        </h2>
+
+        <p>
+            Тойго катыша турганыңызды билдирип,
+            бизге жооп калтырыңыз.
+        </p>
+
+        <form class="rsvp-form" id="rsvpForm">
+
+            <input
+                type="text"
+                id="guestName"
+                placeholder="Атыңызды жазыңыз"
+                required>
+
+            <select id="attendance" required>
+                <option value="">Катышууңузду тандаңыз</option>
+                <option value="Келем">Келем ❤️</option>
+                <option value="Келе албайм">Келе албайм</option>
+            </select>
+
+            <button type="submit">
+                Жоопту жөнөтүү
+            </button>
+
+        </form>
+
+        <div id="rsvp-message"></div>
+
+    </section>
+
+    <!-- FOOTER -->
+
+    <footer>
+        <p>Сиздерди чын жүрөктөн күтөбүз!</p>
+        <br>
+        <span>♡</span>
+        <p>Улан & Толкунай</p>
+    </footer>
+
+</main>
+
+<script>
+
+/* OPEN INVITATION */
+
+const music = document.getElementById("weddingMusic");
+
+function openInvitation() {
+
+    document.getElementById("cover").classList.add("hide");
+
+    document.getElementById("main").classList.add("visible");
+
+    document.getElementById("musicButton").style.display = "block";
+
+    music.play().then(() => {
+        document.getElementById("musicButton").classList.add("playing");
+    }).catch(() => {
+        document.getElementById("musicButton").textContent = "▶";
+    });
+
+}
+
+/* MUSIC CONTROL */
+
+function toggleMusic() {
+
+    const button = document.getElementById("musicButton");
+
+    if (music.paused) {
+
+        music.play().then(() => {
+            button.classList.add("playing");
+            button.textContent = "♪";
+        }).catch(() => {
+            button.textContent = "▶";
+        });
+
+    } else {
+
+        music.pause();
+        button.classList.remove("playing");
+        button.textContent = "▶";
+
+    }
+
+}
+
+/* COUNTDOWN */
+
+const weddingDate = new Date(
+    "2026-12-03T16:00:00+06:00"
+).getTime();
+
+function updateCountdown() {
+
+    const now = new Date().getTime();
+
+    const distance = weddingDate - now;
+
+    if (distance <= 0) {
+
+        document.querySelector(".countdown").innerHTML =
+            "<h2>Бүгүн биздин өзгөчө күнүбүз! ❤️</h2>";
+
+        return;
+    }
+
+    const days = Math.floor(
+        distance / (1000 * 60 * 60 * 24)
+    );
+
+    const hours = Math.floor(
+        (distance % (1000 * 60 * 60 * 24)) /
+        (1000 * 60 * 60)
+    );
+
+    const minutes = Math.floor(
+        (distance % (1000 * 60 * 60)) /
+        (1000 * 60)
+    );
+
+    const seconds = Math.floor(
+        (distance % (1000 * 60)) / 1000
+    );
+
+    document.getElementById("days").textContent = days;
+    document.getElementById("hours").textContent = hours;
+    document.getElementById("minutes").textContent = minutes;
+    document.getElementById("seconds").textContent = seconds;
+
+}
+
+updateCountdown();
+setInterval(updateCountdown, 1000);
+
+/* RSVP */
+
+document.getElementById("rsvpForm")
+.addEventListener("submit", async function(event) {
+
+    event.preventDefault();
+
+    const name = document.getElementById("guestName").value.trim();
+
+    const attendance = document.getElementById("attendance").value;
+
+    if (!name || !attendance) return;
+
+    const message =
+        "Улан & Толкунайдын тоюна жооп:\n" +
+        "Аты: " + name + "\n" +
+        "Жооп: " + attendance;
+
+    try {
+
+        if (navigator.share) {
+
+            await navigator.share({
+                title: "Тойго жооп",
+                text: message
+            });
+
+            document.getElementById("rsvp-message").textContent =
+                "Жообуңуз бөлүшүүгө даяр ❤️";
+
+        } else {
+
+            await navigator.clipboard.writeText(message);
+
+            document.getElementById("rsvp-message").textContent =
+                "Жообуңуз көчүрүлдү. Аны той ээлерине жөнөтүңүз ❤️";
+
+        }
+
+    } catch(error) {
+
+        if (error.name !== "AbortError") {
+            document.getElementById("rsvp-message").textContent =
+                "Жоопту жөнөтүүдө ката кетти.";
+        }
+
+    }
+
+});
+
+</script>
+
+</body>
+</html>
